@@ -74,7 +74,7 @@ struct Queue {
     Node* temp = front;
     while (temp != NULL && isIn == false) {
       if (temp->data == pageNumber) {
-        
+
         isIn = true;
       }
       temp = temp->next;
@@ -110,12 +110,18 @@ struct Queue {
   }*/
 
   void print() {
-    Node* current = front;
+    Node* current = rear;
+    std::cout << current->data << "              ";
 
+    current = front;
+    float count = 2000;
     while (current != NULL) {
-      std::cout << current->data << '\n';
+      float pageFaultRate = current->data / count;
+
+      std::cout << std::setprecision(3) << pageFaultRate << '\t';
 
       current = current->next;
+      count += 2000;
     }
   }
 };

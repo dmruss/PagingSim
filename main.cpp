@@ -1,10 +1,11 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
 #include "Queue.h"
 #include "PageReplace.h"
 
-
+void PrintGrid(int frameSize);
 Queue* ReadInput(std::string filename);
 
 
@@ -16,8 +17,9 @@ int main(int argc, char* argv[]) {
 
 
       Queue* pageList = ReadInput(argv[2]);
-      std::cout << "FIFO\n";
-    
+      PrintGrid(atoi(argv[1]));
+      std::cout << "FIFO                  ";
+
       Queue* pageFaults = Fifo(pageList, atoi(argv[1]));
 
       pageFaults->print();
@@ -35,6 +37,16 @@ int main(int argc, char* argv[]) {
   return 0;
 }
 
+
+void PrintGrid(int frameSize) {
+  std::cout << "============================================================================\n";
+  std::cout << "\tPage Replacement Algorithm Simulation (frame size = " << frameSize << ")\n";
+  std::cout << "============================================================================\n";
+  std::cout << "\t\t\t\t\tPage fault rates\n";
+  std::cout << "Algorithm\tTotal page faults\t2000\t4000\t6000\t8000\t1000\n";
+  std::cout << "----------------------------------------------------------------------------\n";
+
+}
 
 
 Queue* ReadInput(std::string filename){
