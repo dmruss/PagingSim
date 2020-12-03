@@ -2,22 +2,25 @@
 #include <string>
 #include <fstream>
 #include "Queue.h"
+#include "PageReplace.h"
 
 
 Queue* ReadInput(std::string filename);
 
 
 int main(int argc, char* argv[]) {
-  Queue* pageCalls = new Queue();
+  Queue* pageList = new Queue();
+  Queue* pageFaults= new Queue();
 
-  if (argc == 4)
+  if (argc == 3) {
 
-    if (atoi(argv[2]) == 0) {
-      Queue* pageCalls = ReadInput(argv[2]);
+
+      Queue* pageList = ReadInput(argv[2]);
       std::cout << "FIFO\n";
-      Queue* finishedFCFS = Fcfs(newProcessQueue);
-      finishedFCFS->print();
-      finishedFCFS->printStats();
+    
+      Queue* pageFaults = Fifo(pageList, atoi(argv[1]));
+
+      pageFaults->print();
       std::cout << '\n';
 
 
@@ -36,15 +39,14 @@ int main(int argc, char* argv[]) {
 
 Queue* ReadInput(std::string filename){
   std::ifstream infile(filename);
-  int pid, arrival, burst, priority;
-  Queue* newProcessQueue = new Queue();
+  int page;
+  Queue* newPageList = new Queue();
 
-  while (infile >> pid >> arrival >> burst >> priority){
-    PCB* temp = new PCB(pid, arrival, burst, priority);
-    newProcessQueue->Enqueue(temp);
+  while (infile >> page){
+    newPageList->Enqueue(page);
 
     //temp->print();
   }
   //newProcessQueue->print();
-  return newProcessQueue;
+  return newPageList;
 }

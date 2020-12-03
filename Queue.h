@@ -10,7 +10,7 @@ struct Node {
     next = NULL;
   }
 
-  Node(pageNumber){
+  Node(int pageNumber){
     data = pageNumber;
     next = NULL;
   }
@@ -67,6 +67,23 @@ struct Queue {
 
   }
 
+  bool searchFor(int pageNumber) {
+    bool isIn = false;
+    if (front == NULL) {return false;}
+
+    Node* temp = front;
+    while (temp != NULL && isIn == false) {
+      if (temp->data == pageNumber) {
+        
+        isIn = true;
+      }
+      temp = temp->next;
+
+    }
+
+    return isIn;
+  }
+
   /*void printStats() {
     float avgBurst = 0, avgWait = 0, avgTurn = 0, avgResponse = 0, totalContext = 0;
     Node* current = front;
@@ -96,7 +113,7 @@ struct Queue {
     Node* current = front;
 
     while (current != NULL) {
-      std::cout << current->data << '\n'
+      std::cout << current->data << '\n';
 
       current = current->next;
     }
