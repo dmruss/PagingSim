@@ -1,6 +1,10 @@
 #ifndef QUEUE_HEAD
 #define QUEUE_HEAD
 
+#include <iostream>
+#include <fstream>
+#include <string>
+
 struct Node {
   int data;
   Node* next;
@@ -124,7 +128,32 @@ struct Queue {
       count += 2000;
     }
   }
+
+
+  void printToFile(std::string filename) {
+    std::ofstream outFile;
+    outFile.open(filename, std::ios::ate | std::ios::app);
+
+    Node* current = rear;
+    outFile << current->data << "         ";
+
+    current = front;
+    float count = 2000;
+    while (current != NULL) {
+      float pageFaultRate = current->data / count;
+
+      outFile << std::setprecision(3) << pageFaultRate << '\t';
+
+      current = current->next;
+      count += 2000;
+    }
+    outFile << '\n';
+    outFile.close();
+  }
 };
+
+
+
 
 
 /*struct BurstPQueue : Queue {

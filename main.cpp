@@ -6,6 +6,7 @@
 #include "PageReplace.h"
 
 void PrintGrid(int frameSize);
+void PrintToFile(std::string filename, int frameSize);
 Queue* ReadInput(std::string filename);
 
 
@@ -15,15 +16,21 @@ int main(int argc, char* argv[]) {
 
   if (argc == 3) {
 
+      FILE *fp;
 
       Queue* pageList = ReadInput(argv[2]);
       PrintGrid(atoi(argv[1]));
-      std::cout << "FIFO                  ";
+
 
       Queue* pageFaults = Fifo(pageList, atoi(argv[1]));
-
+      std::cout << "FIFO                  ";
       pageFaults->print();
       std::cout << '\n';
+
+
+      PrintToFile("output.txt", atoi(argv[1]));
+      pageFaults->printToFile("output.txt");
+
 
 
   }else {
@@ -46,6 +53,20 @@ void PrintGrid(int frameSize) {
   std::cout << "Algorithm\tTotal page faults\t2000\t4000\t6000\t8000\t1000\n";
   std::cout << "----------------------------------------------------------------------------\n";
 
+}
+
+void PrintToFile(std::string filename, int frameSize) {
+  std::ofstream outFile;
+  outFile.open(filename, std::ios::ate | std::ios::app);
+  outFile << "============================================================================\n";
+  outFile << "\tPage Replacement Algorithm Simulation (frame size = " << frameSize << ")\n";
+  outFile << "============================================================================\n";
+  outFile << "                                 Page fault rates\n";
+  outFile << "Algorithm\tTotal page faults\t2000\t4000\t6000\t8000\t1000\n";
+  outFile << "----------------------------------------------------------------------------\n";
+  outFile << "FIFO          ";
+
+  outFile.close();
 }
 
 
