@@ -88,6 +88,45 @@ struct Queue {
     return isIn;
   }
 
+  Node* searchForNode(int pageNumber) {
+    Node* nodeBeforeFound = NULL;
+    Node* foundNode = NULL;
+    if (front == NULL) {return foundNode;}
+
+    foundNode = front;
+    while (foundNode != NULL) {
+      if (foundNode->data == pageNumber) {
+
+        break;
+      }
+      nodeBeforeFound = foundNode;
+      foundNode = foundNode->next;
+
+    }
+
+
+    if (foundNode == NULL) {
+      nodeBeforeFound = NULL;
+    }
+
+    return nodeBeforeFound;
+  }
+
+  void recentlyUsedMiddle(Node* nodeBeforeFound) {
+    Node* usedNode = nodeBeforeFound->next;
+    nodeBeforeFound->next = usedNode->next;
+    rear->next = usedNode;
+    rear = usedNode;
+    usedNode->next = NULL;
+  }
+
+  void recentlyUsedFront(Node* foundNode) {
+    front = foundNode->next;
+    rear->next = foundNode;
+    rear = foundNode;
+    rear->next = NULL;
+  }
+
   /*void printStats() {
     float avgBurst = 0, avgWait = 0, avgTurn = 0, avgResponse = 0, totalContext = 0;
     Node* current = front;
@@ -150,6 +189,12 @@ struct Queue {
     outFile << '\n';
     outFile.close();
   }
+
+  void printChars() {
+    int aChar = front->data;
+    std::cout << static_cast<char>(aChar);
+  }
+
 };
 
 
