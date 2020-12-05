@@ -103,7 +103,9 @@ struct Queue {
       foundNode = foundNode->next;
 
     }
-
+    if (nodeBeforeFound == NULL) {
+      nodeBeforeFound = foundNode;
+    }
 
     if (foundNode == NULL) {
       nodeBeforeFound = NULL;
