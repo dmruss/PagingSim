@@ -11,34 +11,41 @@ Queue* ReadInput(std::string filename);
 
 
 int main(int argc, char* argv[]) {
-  Queue* pageList = new Queue();
-  Queue* pageFaults= new Queue();
+  Queue* pageListInput = new Queue();
+  Queue* fifoPageFaults= new Queue();
+  Queue* lruPageFaults = new Queue();
 
-  if (argc == 3) {
 
-      FILE *fp;
+  if (argc == 4) {
+      //read input
+      Queue* pageListInput = ReadInput(argv[2]);
 
-      Queue* pageList = ReadInput(argv[2]);
+      //run algorithms
+      Queue* fifoPageFaults = Fifo(pageListInput, atoi(argv[1]));
+      pageListInput = ReadInput(argv[2]);
+      Queue* lruPageFaults = LRU(pageListInput, atoi(argv[1]));
+
+      //Print to console
       PrintGrid(atoi(argv[1]));
-
-
-      Queue* pageFaults = Fifo(pageList, atoi(argv[1]));
       std::cout << "FIFO                  ";
-      pageFaults->print();
+      fifoPageFaults->print();
+      std::cout << '\n';
+      std::cout << "LRU                   ";
+      lruPageFaults->print();
       std::cout << '\n';
 
+      //test->Enqueue(76);
+      //test->printChars();
 
-      PrintToFile("output.txt", atoi(argv[1]));
-      pageFaults->printToFile("output.txt");
 
-
+      //Print to file
+      PrintToFile(argv[3], atoi(argv[1]));
+      fifoPageFaults->printToFile(argv[3]);
+      lruPageFaults->printToFile(argv[3]);
 
   }else {
-
     std::cout << "Input error\n";
-
-
-}
+        }
 
 
   return 0;
