@@ -7,6 +7,7 @@
 
 void PrintGrid(int frameSize);
 void PrintToFile(std::string filename, int frameSize);
+void PrintWordToFile(std::string filename, std::string aString);
 Queue* ReadInput(std::string filename);
 
 
@@ -14,6 +15,7 @@ int main(int argc, char* argv[]) {
   Queue* pageListInput = new Queue();
   Queue* fifoPageFaults= new Queue();
   Queue* lruPageFaults = new Queue();
+  Queue* optPageFaults = new Queue();
 
 
   if (argc == 4) {
@@ -21,9 +23,12 @@ int main(int argc, char* argv[]) {
       Queue* pageListInput = ReadInput(argv[2]);
 
       //run algorithms
-      Queue* fifoPageFaults = Fifo(pageListInput, atoi(argv[1]));
+      fifoPageFaults = Fifo(pageListInput, atoi(argv[1]));
       pageListInput = ReadInput(argv[2]);
-      Queue* lruPageFaults = LRU(pageListInput, atoi(argv[1]));
+      lruPageFaults = LRU(pageListInput, atoi(argv[1]));
+      pageListInput = ReadInput(argv[2]);
+      optPageFaults = OPT(pageListInput, atoi(argv[1]));
+
 
       //Print to console
       PrintGrid(atoi(argv[1]));
@@ -33,6 +38,9 @@ int main(int argc, char* argv[]) {
       std::cout << "LRU                   ";
       lruPageFaults->print();
       std::cout << '\n';
+      std::cout << "OPT                   ";
+      optPageFaults->print();
+      std::cout << '\n';
 
       //test->Enqueue(76);
       //test->printChars();
@@ -41,7 +49,10 @@ int main(int argc, char* argv[]) {
       //Print to file
       PrintToFile(argv[3], atoi(argv[1]));
       fifoPageFaults->printToFile(argv[3]);
+      PrintWordToFile(argv[3], "LRU           ");
       lruPageFaults->printToFile(argv[3]);
+      PrintWordToFile(argv[3], "Optimal       ");
+      optPageFaults->printToFile(argv[3]);
 
   }else {
     std::cout << "Input error\n";
@@ -73,6 +84,13 @@ void PrintToFile(std::string filename, int frameSize) {
   outFile << "----------------------------------------------------------------------------\n";
   outFile << "FIFO          ";
 
+  outFile.close();
+}
+
+void PrintWordToFile(std::string filename, std::string aString) {
+  std::ofstream outFile;
+  outFile.open(filename, std::ios::ate | std::ios::app);
+  outFile << aString;
   outFile.close();
 }
 
