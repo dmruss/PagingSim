@@ -116,7 +116,7 @@ Queue* LRU(Queue* pageList, int frames) {
 }
 
 Queue* OPT(Queue* pageList, int frames) {
-    std::cout << "called\n";
+
     Queue* pageFaults = new Queue();
     Queue* frameList = new Queue();
     int numPageFaults = 0;
@@ -128,14 +128,7 @@ Queue* OPT(Queue* pageList, int frames) {
       int pagesExec = 10000 - pageList->size;
       int currentPage = pageList->front->data;
       Node* nodeBeforeFound = frameList->searchForNode(currentPage);
-      std::cout << std::endl;
-      std::cout << "Page called: " << currentPage << std::endl;
-      Node* aNode = frameList->front;
-      while(aNode != NULL) {
-        std::cout << aNode->data << '\t';
-        aNode = aNode->next;
-      }
-      std::cout << std::endl;
+
 
       if (pagesExec % 2000 == 0 && pagesExec != 0) {pageFaults->Enqueue(numPageFaults);}
 
@@ -158,12 +151,12 @@ Queue* OPT(Queue* pageList, int frames) {
 
 
 
-          std::cout << "rear: " << frameList->rear->data << std::endl;
+
           frameList->Enqueue(pageList->front->data);
-          
 
 
-          std::cout << "size1: "<<frameList->size << std::endl;
+
+
           pageList->deQueue();
           numPageFaults += 1;
         }else {
@@ -174,7 +167,7 @@ Queue* OPT(Queue* pageList, int frames) {
       else if (nodeBeforeFound != NULL) {
         //MOVETOTAILINFRAMELIST
         pageList->deQueue();
-        std::cout << "no fault\n";
+        
 
         /*if (nodeBeforeFound->data == currentPage) {
           frameList->recentlyUsedFront(nodeBeforeFound);

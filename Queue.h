@@ -50,7 +50,6 @@ struct Queue {
   }*/
 
   void Enqueue(int pageNumber){
-    std::cout << "Enqueue : " << pageNumber << std::endl;
     Node* temp = new Node(pageNumber);
     if (front == NULL) {
       front = temp;
@@ -210,37 +209,33 @@ struct Queue {
 
   void setPriority(Queue* pageList) {
     int count = 0;
+
     Node* frameTemp = front;
     while (frameTemp != NULL) {
-  //    std::cout << frameTemp->data << std::endl;
       count = 0;
       Node* pageTemp = pageList->front;
       while (pageTemp != NULL) {
-
         if (pageTemp->data == frameTemp->data) {
           break;
         }
         pageTemp = pageTemp->next;
         count++;
-
       }
-    //  std::cout << "called7\n";
 
 
       if (pageTemp != NULL) {
       //  std::cout << "assigned\n";
         frameTemp->priority = count;
       }
+      if (pageTemp == NULL) {
+        frameTemp->priority = -1;
+      }
 
       frameTemp = frameTemp->next;
     //  std::cout << "called5\n";
     }
 
-    frameTemp = front;
-    while (frameTemp != NULL) {
-      std::cout << "data: "<< frameTemp->data << ' ' <<"priority: " << frameTemp->priority << std::endl;
-      frameTemp = frameTemp->next;
-    }
+
   }
 
 
@@ -248,14 +243,13 @@ struct Queue {
     int lowestPriorityData = -1;
     int lowestPriority = -1;
     Node* temp = front;
+
     //find
-  //  std::cout << "check 1\n";
     while (temp != NULL) {
       if (temp->priority == -1) {
       //  std::cout << "check 2\n";
         lowestPriorityData = temp->data;
-        lowestPriority = temp->priority;
-       std::cout << "lowest priority: " << lowestPriorityData << std::endl;
+
         break;
       }
       if (temp->priority > lowestPriority) {
@@ -265,27 +259,23 @@ struct Queue {
       }
   //    std::cout << "check 4\n";
       temp = temp->next;
-      std::cout << "lowest priority: " << lowestPriorityData << std::endl;
     }
+    
     //go back to
     temp = front;
     bool delFirst = false;
-    while (temp != NULL) {
-      if (temp->data == lowestPriorityData) {
-        delFirst = true;
-        break;
-      }
-      else if (temp->next->data == lowestPriorityData) {
+    if (front->data == lowestPriorityData) {
+      delFirst = true;
+    }
+    while (temp != NULL && !delFirst) {
+
+      if (temp->next->data == lowestPriorityData) {
         break;
       }
       //std::cout << "check 5\n";
       temp = temp->next;
     }
-    if (delFirst) {
-      std::cout << "delete: " << temp->data << std::endl;
-    }else {
-      std::cout << "Delete: " << temp->next->data << std::endl;
-    }
+
 
     //delete
     if (delFirst) {
@@ -304,7 +294,7 @@ struct Queue {
         delete(toDel);
         size -= 1;
       }else {
-        
+
         Node* toDel = temp->next;
         temp->next = toDel->next;
         toDel->next = NULL;
@@ -313,7 +303,7 @@ struct Queue {
       }
     //std::cout << "check 6\n";
 
-    std::cout << "size: " << size << std::endl;
+
     }
   }
 
