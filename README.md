@@ -34,6 +34,23 @@ The input file must be in .txt format and be integers delineated by new lines.  
 This is the name of a .txt which the program can print the same output seen in the shell.
 
 
+## Output
+
+The output of the program will be in the form of this table:
+
+============================================================================
+	Page Replacement Algorithm Simulation (frame size = 128)
+============================================================================
+                                 Page fault rates
+Algorithm	Total page faults	2000	4000	6000	8000	1000
+----------------------------------------------------------------------------
+FIFO          9653         0.965	0.966	0.966	0.966	0.965
+LRU           9651         0.966	0.966	0.965	0.966	0.965
+Optimal       7773         0.826	0.795	0.785	0.782	0.777
+
+It shows the frame size, each algorithm, the total page faults for each, and the page fault rate for the pages executed at multiples of 2000.
+
+
 ## Key algorithms
 
 #### First in First Out (FIFO)
@@ -67,3 +84,15 @@ When a page is referenced, it will check if it is in memory.  If so it will move
 If the page is not in memory and there is a free frame, it is added to the tail.  This is another page fault.
 
 If a page is not in memory and there are no free frames, OPT iterates through each page in memory and through all future page references to assign each page in memory a priority number.  The priority number is the soonest that page is referenced from the current page.  If it is not referenced again, it receives a priority of -1.  The first page to receive a priority of -1 is chosen as the victim.  If there are no pages with a priority of -1, then the highest integer priority number is the victim.  The page fault counter is incremented.
+
+## Files
+
+The files included are :
+    main.cpp - Driver function with printing helper functions.
+    Queue.h - Structs to build the nodes, queue and their helper functions
+    PageReplace.h - All three page replacement algorithms
+    output.txt
+    pg-reference.txt - list of 10,000 pages
+    makefile
+    README.md
+    test.sh - shell script to run 4 different page sizes
